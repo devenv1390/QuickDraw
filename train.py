@@ -54,11 +54,10 @@ def train(opt):
 
     training_set = MyDataset(opt.data_path, opt.total_images_per_class, opt.ratio, "train")
     training_generator = DataLoader(training_set, **training_params)
-    print ("there are {} images for training phase".format(training_set.__len__()))
+    print("there are {} images for training phase".format(training_set.__len__()))
     test_set = MyDataset(opt.data_path, opt.total_images_per_class, opt.ratio, "test")
     test_generator = DataLoader(test_set, **test_params)
     print("there are {} images for test phase".format(test_set.__len__()))
-
 
     model = QuickDraw(num_classes=training_set.num_classes)
 
