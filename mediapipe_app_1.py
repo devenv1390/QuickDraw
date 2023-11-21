@@ -39,9 +39,11 @@ with mp_hands.Hands(
         if not success:
             continue
 
-        # 将图像转换为 RGB 格式
+        # 将图像的可写性标志设置为 False。这是因为 MediaPipe 库的处理可能会修改输入图像，但在此处我们希望防止修改原始图像，因此将其设置为不可写。
         image.flags.writeable = False
+        # 将图像从 BGR（OpenCV 默认颜色通道顺序）转换为 RGB 颜色通道顺序。MediaPipe 库使用 RGB 格式的图像进行处理。
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        # 使用 MediaPipe 中的手部检测器（Hands）处理图像，返回检测结果。results 包含了关于检测到的手部的信息，例如手部关键点的位置等。
         results = hands.process(image)
 
         # 在图像上绘制手部标注
@@ -99,7 +101,7 @@ with mp_hands.Hands(
                     # 处于绘制状态，记录手指位置
                     is_drawing = True
                     is_shown = False
-                    points.append((int(hand_landmarks.landmark[8].x*640), int(hand_landmarks.landmark[8].y*480)))
+                    points.append((int(hand_landmarks.landmark[8].x * 640), int(hand_landmarks.landmark[8].y * 480)))
                     for i in range(1, len(points)):
                         cv2.line(image, points[i - 1], points[i], (0, 255, 0), 2)
                         cv2.line(canvas, points[i - 1], points[i], (255, 255, 255), 5)
@@ -112,7 +114,7 @@ with mp_hands.Hands(
                     mp_drawing_styles.get_default_hand_connections_style())
                 # 如果不在绘制状态且已显示绘制结果
                 if not is_drawing and is_shown:
-                    cv2.putText(image, 'You are drawing', (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0,255,0), 5,
+                    cv2.putText(image, 'You are drawing', (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 255, 0), 5,
                                 cv2.LINE_AA)
                     # 在图像上显示绘制结果
                     image[5:65, 490:550] = get_overlay(image[5:65, 490:550], class_images[predicted_class], (60, 60))

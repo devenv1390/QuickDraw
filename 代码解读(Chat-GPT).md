@@ -416,3 +416,7 @@ def findContours(image: UMat, mode: int, method: int, contours: typing.Sequence[
 
 总体而言，这个信息架构涵盖了从摄像头输入到模型推理再到结果显示的整个流程，同时考虑了用户的交互和控制。
 
+---
+
+## mediapipe_app.py
+
